@@ -326,4 +326,94 @@ public class SingleList {
         return newhead.next; //返回头节点
     }
 
+    //8 判断是否为回文结构
+    public boolean chkPalindrome(){
+        //判断是否为回文，需要先改变链表结构
+        if(this.head == null){
+            return false;
+        }
+        if(this.head.next == null){
+            return false;
+        }
+        //找到中间节点
+        ListNode fast = this.head;
+        ListNode slow = this.head;
+        while(fast!=null && fast.next!=null){
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        //循环完之后的slow即为中间节点
+
+        //反转中间节点后的链表
+        ListNode cur = slow.next;
+        while(cur!=null){
+            ListNode curNext = cur.next;//要先将原来的cur.next节点保存下来，要不然将会找不到下一个节点
+            cur.next = slow;
+            slow = cur;
+            cur = curNext;
+        }
+
+        //判断回文结构slow向前走，head向后走
+        while(slow!=this.head){
+            if(slow.data!=this.head.data){
+                return false;
+            }
+            if(this.head.next == slow){
+                return true;
+            }
+            slow = slow.next;
+            this.head = this.head.next;
+        }
+        //遍历完成都没有发现错误
+        return true;
+    }
+
+    //10判断一个链表是否为环
+    //创造一个有环的链表
+    public void creteLoop(){
+        ListNode cur = this.head;
+        //让cur指向最后一个节点
+        while (cur.next != null){
+            cur = cur.next;
+        }
+        //让最后一个节点的null指向一个节点
+        cur.next = this.head.next.next;
+    }
+    public boolean hasCycle(){
+        ListNode fast = this.head;
+        ListNode slow = this.head;
+        while(fast != null && fast.next !=null){
+            fast = fast.next.next;
+            slow = slow.next;
+            if(slow == fast){
+                break;
+            }
+        }
+        if(fast == null || fast.next ==null){
+            return false;
+        }
+        return true;
+    }
+
+    //返回入环节点
+    public ListNode detectCycle(){
+        ListNode fast = this.head;
+        ListNode slow = this.head;
+        while(fast != null && fast.next != null){
+            fast = fast.next.next;
+            slow = slow.next;
+            if(slow == fast){
+                break;
+            }
+        }
+        if(fast == null || fast.next == null){
+            return null;
+        }
+        slow = this.head;
+        while (slow != fast){
+            slow = slow.next;
+            fast = fast.next;
+        }
+        return slow;
+    }
 }
