@@ -1,4 +1,7 @@
+import  java.util.Arrays;
 public class Test {
+
+
     /**
      * javac -encoding UTF-8 Test.java
      * java Test hello world
@@ -12,5 +15,11 @@ public class Test {
         System.out.println("hello world");
         //System.out.println("%d\n",a);
         System.out.print("hello world");  //不换行
+        int elem[] = {1 ,2,3,4};
+        elem = Arrays.copyOf(elem,elem.length*2);
+        for (int i=0; i<elem.length*2;i++){
+            System.out.println(elem[i]);
+        }
+
     }
 }

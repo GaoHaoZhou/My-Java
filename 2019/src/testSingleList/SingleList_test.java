@@ -77,7 +77,40 @@ public class SingleList_test {
     }
 
     //重要！！复制带随机指针的链表   在OJ上做，OJ提供的ListNode有三个域
-
+    /**
+    public ListNode copyRandomList(ListNode head){
+        if(head == null){
+            return  null;
+        }
+        //老新进行交替连接
+        ListNode cur = head;
+        while (cur != null){
+            ListNode node  = new ListNode(cur.val, cur.next, null);
+            ListNode tmp = cur.next;
+            cur.next = node;
+            cur = tmp;
+        }
+        //2. 修改random
+        cur = head;
+        while(cur!=null){
+            if(cur.random != null){
+                cur.next.random = cur.random.next;
+                cur = cur.next.next;
+            }else{
+                cur = cur.next.next;
+            }
+        }
+        //3.将新老节点打开
+        cur = head;
+        ListNode  newhead = cur.next;
+        while(cur.next != null){
+            ListNode tmp = cur.next;
+            cur.next = tmp.next;
+            cur = tmp;
+        }
+        return newHead;
+    }
+    */
     public static void main(String[] args) {
         /**
         SingleList mySingleList = new SingleList();
