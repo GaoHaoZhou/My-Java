@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class NormalUser extends User {
     //构造方法
     public NormalUser(String name) {
-        super.name = name;
+        this.name = name;
         super.operation = new IOperation[]{
                 new ExitOperate(),
                 new FindOperate(),
