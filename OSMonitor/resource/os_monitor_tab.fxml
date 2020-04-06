@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.control.cell.TreeItemPropertyValueFactory?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      xmlns="http://javafx.com/javafx/8.0.171"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bitedu.gui.OSMonitorController">
+   <children>
+      <TabPane tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab onSelectionChanged="#handleCPUSelectionChanged" text="CPU 占有率">
+               <content>
+                  <VBox>
+                     <children>
+                        <HBox VBox.vgrow="ALWAYS">
+                           <children>
+                              <LineChart fx:id="cpuChart" animated="false" HBox.hgrow="ALWAYS">
+                                <xAxis>
+                                  <NumberAxis animated="false" label="Seconds" side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis animated="false" label="Percent" side="LEFT" />
+                                </yAxis>
+                              </LineChart>
+                           </children>
+                        </HBox>
+                        <HBox VBox.vgrow="ALWAYS">
+                           <children>
+                              <GridPane hgap="10.0" vgap="10.0" HBox.hgrow="ALWAYS">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="NEVER" minWidth="10.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Text fx:id="osType" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" />
+                                    <Label text="OS：" />
+                                    <Label text="Arch:" GridPane.rowIndex="1" />
+                                    <Label text="Version:" GridPane.rowIndex="2" />
+                                    <Text fx:id="cpuArch" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Text fx:id="Version" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                 </HBox.margin>
+                              </GridPane>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+            <Tab text="磁盘空间统计">
+               <content>
+                  <VBox>
+                     <children>
+                        <HBox VBox.vgrow="ALWAYS">
+                           <children>
+                              <GridPane hgap="10.0" vgap="10.0" HBox.hgrow="ALWAYS">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Label text="选择文件目录：">
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                    </Label>
+                                    <Button mnemonicParsing="false" onAction="#handleSelectFile" prefWidth="80.0" text="选择" GridPane.columnIndex="1">
+                                       <GridPane.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </GridPane.margin>
+                                    </Button>
+                                 </children>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                                 </HBox.margin>
+                              </GridPane>
+                           </children>
+                        </HBox>
+                        <HBox VBox.vgrow="ALWAYS">
+                           <children>
+                              <TreeTableView fx:id="fileStat" HBox.hgrow="ALWAYS">
+                                <columns>
+                                  <TreeTableColumn prefWidth="75.0" text="目录名">
+                                    <cellValueFactory>
+                                        <TreeItemPropertyValueFactory property="fileName" />
+                                    </cellValueFactory>
+                                  </TreeTableColumn>
+                                  <TreeTableColumn prefWidth="75.0" text="总长度">
+                                    <cellValueFactory>
+                                        <TreeItemPropertyValueFactory property="totalLength" />
+                                    </cellValueFactory>
+                                  </TreeTableColumn>
+                                </columns>
+                              </TreeTableView>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+   </children>
+</VBox>
