@@ -19,7 +19,7 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       xmlns="http://javafx.com/javafx/8.0.171"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.bitedu.gui.OSMonitorController">
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.glp.gui.OSMonitorController">
    <children>
       <TabPane tabClosingPolicy="UNAVAILABLE">
          <tabs>
@@ -55,9 +55,9 @@
                                     <Text fx:id="osType" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" />
                                     <Label text="OS：" />
                                     <Label text="Arch:" GridPane.rowIndex="1" />
-                                    <Label text="Version:" GridPane.rowIndex="2" />
+                                    <Label text="TotalMemory:" GridPane.rowIndex="2" />
                                     <Text fx:id="cpuArch" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Text fx:id="Version" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Text fx:id="TotalMemory" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                  </children>
                                  <HBox.margin>
                                     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

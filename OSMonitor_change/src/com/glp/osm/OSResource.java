@@ -1,7 +1,7 @@
-package com.bitedu.osm;
+package com.glp.osm;
 
-import javax.net.ssl.ManagerFactoryParameters;
 import java.lang.management.ManagementFactory;
+import java.text.DecimalFormat;
 //import java.lang.management.OperatingSystemMXBean;
 import com.sun.management.OperatingSystemMXBean;
 
@@ -59,10 +59,37 @@ public class OSResource {
     public static String getcpuArch(){
         return mxBean.getArch();
     }
-    //获取Version文本
-    public static String getVersion(){
-        return mxBean.getVersion();
+    //获取总的物理内存，固定7.9G，本机是8G看样是有亏损的
+    public static String TotalMemory(){
+        return getNetFileSizeDescription(mxBean.getTotalPhysicalMemorySize());
     }
+
+    public static String getNetFileSizeDescription(long size) {
+        StringBuffer bytes = new StringBuffer();
+        DecimalFormat format = new DecimalFormat("###.0");
+        if (size >= 1024 * 1024 * 1024) {
+            double i = (size / (1024.0 * 1024.0 * 1024.0));
+            bytes.append(format.format(i)).append("GB");
+        }
+        else if (size >= 1024 * 1024) {
+            double i = (size / (1024.0 * 1024.0));
+            bytes.append(format.format(i)).append("MB");
+        }
+        else if (size >= 1024) {
+            double i = (size / (1024.0));
+            bytes.append(format.format(i)).append("KB");
+        }
+        else if (size < 1024) {
+            if (size <= 0) {
+                bytes.append("0B");
+            }
+            else {
+                bytes.append((int) size).append("B");
+            }
+        }
+        return bytes.toString();
+    }
+
    // 5 核心程序（0—59）
     private static void moveCPUData(double cpuPercetage) {
         int movIdx = -1;

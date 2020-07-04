@@ -1,4 +1,4 @@
-package com.bitedu.osm;
+package com.glp.osm;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -1,8 +1,8 @@
-package com.bitedu.gui;
+package com.glp.gui;
 
-import com.bitedu.osm.FileScanner;
-import com.bitedu.osm.FileTreeNode;
-import com.bitedu.osm.OSResource;
+import com.glp.osm.FileScanner;
+import com.glp.osm.FileTreeNode;
+import com.glp.osm.OSResource;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -29,7 +29,7 @@ public class OSMonitorController {
     @FXML private TreeTableView<FileTreeNode> fileStat;
     @FXML private Text osType;
     @FXML private Text cpuArch;
-    @FXML private Text Version;
+    @FXML private Text TotalMemory;
     //定时器线程
     private Timer timer = new Timer();
     //定时器任务
@@ -62,7 +62,7 @@ public class OSMonitorController {
                                 cpuChart.getData().add(series);//数据点
                                 osType.setText(OSResource.getOSName());
                                 cpuArch.setText(OSResource.getcpuArch());
-                                Version.setText(OSResource.getVersion());
+                                TotalMemory.setText(OSResource.TotalMemory());
                             }
                     );
 
