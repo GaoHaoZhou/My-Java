@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet"/>
+    <!--<link rel="stylesheet" href="css/Site.css"/>-->
+    <link rel="stylesheet" href="css/zy.all.css"/>
+    <link rel="stylesheet" href="css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/amazeui.min.css"/>
+    <link rel="stylesheet" href="css/admin.css"/>
+    <script src = "js/jquery-1.7.2.min.js"> </script>
+    <script>
+        $(function() {
+            $.ajax({
+                url: "orderbrowse",
+                type:"get",
+                dataType: "json",
+                success: function(data){
+                    console.log(data);
+                    var s = "";
+                    for (var i = 0; i < data.length; i++) {
+                        s += "<tr >";
+
+                        s += "<td>";//默认无序列表
+                        s +=  "<li > 【订单号】:" +  data[i].id+"</li>";
+                        s +=  "<li > 【订单状态】:" +  data[i].order_status+"</li>";
+                        s +=  "<li > 【订单创建时间】:" +  data[i].create_time+"</li>";
+                        s +=  "<li > 【订单完成时间】:" +  data[i].finish_time+"</li>";
+                        s += "</td>";
+
+                        s += "<td>";
+                        s += "<ol>";
+                        for (var j = 0; j < data[i].orderItemList.length; j++) {
+                            s +=  "<li>" +  data[i].orderItemList[j].goods_name +" "+ data[i].orderItemList[j].goods_num
+                                +data[i].orderItemList[j].goods_unit+" "+ data[i].orderItemList[j].goods_price+"元</li>";
+                        }
+                        s += "</ol>";
+                        s += "</td>";
+
+                        s += "<td>";
+                        s +=  "<li > 【总金额】:" +  data[i].total_money+"元</li>";
+                        s +=  "<li> 【优惠金额】：" +  data[i].discount+"元</li>";
+                        s +=  "<li> 【应支付金额】：" +  data[i].actual_amount+"元</li>";
+                        s += "<td>";
+
+                        s += "</td>";
+
+                        s += "</tr>";
+                    }
+
+                    console.log(s);
+                    $("#tbRecord>tbody").html(s);
+                },
+                error:function (data) {
+                    console.log("错误");
+                    console.log(data);
+                }
+            });
+        });
+    </script>
+
+</head>
+<body>
+<div class="dvcontent">
+    <div>
+        <!--tab start-->
+        <div class="tabs" style="height: 800px; overflow:scroll">
+            <div class="hd">
+                <ul>
+                    <li class="on" style="box-sizing: initial;-webkit-box-sizing: initial;">浏览订单</li>
+                </ul>
+            </div>
+            <div class="bd">
+                <ul style="display: block;padding: 20px;">
+                    <li>
+                        <!--分页显示角色信息 start-->
+                        <div id="dv1">
+                            <!-- 规定元素的类名（classname）  规定元素的唯一 id-->
+                            <table class="table" id="tbRecord">
+                                <thead><!--<thead> 标签定义表格的表头。该标签用于组合 HTML 表格的表头内容。-->
+                                <tr><!--tr 元素包含一个或多个 th 或 td 元素。-->
+                                    <th>订单信息</th>
+                                    <th>订单明细</th>
+                                    <th>订单金额</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <!--分页显示角色信息 end-->
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

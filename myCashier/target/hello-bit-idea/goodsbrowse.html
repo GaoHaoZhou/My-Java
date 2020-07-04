@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet"/>
+    <link rel="stylesheet" href="css/Site.css"/>
+    <link rel="stylesheet" href="css/zy.all.css"/>
+    <link rel="stylesheet" href="css/amazeui.min.css"/>
+    <!--<script src = "https://code.jquery.com/jquery-3.3.1.min.js"> </script>-->
+    <script src = "js/jquery-1.9.0.min.js"> </script>
+    <!--js代码 要被执行 需要导入上面的库-->
+    <script>
+        //进入此页面 该函数立即执行
+        $(function () {
+            $.ajax({
+                url:"goods",
+                type:"get",
+                dataType:"json",
+                success:function (data) {
+                    console.log(data);
+                    var s = "";
+                    for(var i=0;i<data.length;i++){
+                        s+="<tr>";
+                        s+="<td>"+data[i].id+"</td>";
+                        s+="<td>"+data[i].name+"</td>";
+                        s+="<td>"+data[i]["introduce"]+"</td>";
+                        s+="<td>"+data[i].stock+"</td>";
+                        s+="<td>"+data[i].unit+"</td>";
+                        s+="<td>"+(data[i].price)+"</td>";
+                        s+="<td>"+data[i].discount+"</td>";
+                        s+="<td class =\"delete\"><button onclick=\"deleteInfo('"+data[i].id +" ')\" class=\"icon-trash bigger-120\"></button>下架</button></td>";
+                        s+="</tr>";
+                    }
+                    $("#tbRecord>tbody").html(s);
+                }
+            })
+
+        });
+        function deleteInfo(obj) {
+            console.log(obj);
+            if(obj!=null){
+                $.ajax({
+                    url:"delGoods",
+                    type:"post",
+                    data:{"id":obj},
+                    success:function () {
+                        alert("删除成功");
+                        window.location.reload();
+                    },
+                    error:function () {
+                        alert("请求失败");
+                    },
+                    dataType:"text"
+                });
+            }
+        }
+    </script>
+
+</head>
+<body>
+<div class="dvcontent">
+    <div>
+        <!--tab start-->
+        <div class="tabs" style="height: 800px; overflow:scroll">
+            <div class="hd">
+                <ul>
+                    <li class="on" style="box-sizing: initial;-webkit-box-sizing: initial;">浏览商品</li>
+                </ul>
+            </div>
+            <div class="bd">
+                <ul style="display: block;padding: 20px;">
+                    <li>
+                        <!--分页显示角色信息 start-->
+                        <div id="dv1">
+                            <!-- 规定元素的类名（classname）  规定元素的唯一 id-->
+                            <table class="table" id="tbRecord">
+                                <thead><!--<thead> 标签定义表格的表头。该标签用于组合 HTML 表格的表头内容。-->
+                                <tr><!--tr 元素包含一个或多个 th 或 td 元素。-->
+                                    <th>编号</th><!--表头单元格 - 包含表头信息-->
+                                    <th>商品名称</th>
+                                    <th>商品介绍</th>
+                                    <th>上架数量</th>
+                                    <th>商品单位</th>
+                                    <th>商品价格(元)</th>
+                                    <th>商品折扣</th>
+                                    <th>下架商品</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <!--分页显示角色信息 end-->
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
