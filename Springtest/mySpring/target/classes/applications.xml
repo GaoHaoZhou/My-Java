@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 定义bean对象：默认是通过无参构造方法生成对象，没有设置scope默认为singleton -->
+    <bean id = "duck1" class = "com.glp.model.Duck">
+        <property name="name" value="唐老鸭"/>
+        <property name="age" value="25"/>
+     </bean>
+
+    <!-- 通过有参的构造方法定义Bean对象 -->
+    <bean id="duck2" class ="com.glp.model.Duck" scope="prototype">
+        <constructor-arg name="name" value="兔八哥"/>
+        <constructor-arg name="age" value="56"/>
+    </bean>
+
+    <!-- 引用已有的bean对象：ref -->
+    <bean id="duckShop" class="com.glp.model.DuckShop">
+        <property name="ducks">
+            <list>
+                <ref bean="duck1" />
+                <ref bean="duck2" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="p1" class="com.glp.model.Person">
+        <property name="duck" ref="duck1" />
+    </bean>
+
+    <!-- 通过静态方法实例化对象 -->
+    <bean id="duck3" class="com.glp.model.DuckFactory" factory-method="create"></bean>
+
+    <!-- 通过实例方法实例化对象 -->
+    <bean id="duckFactory" class="com.glp.model.DuckFactory" />
+    <bean id="duck4" factory-bean="duckFactory" factory-method="create2" />
+
+    <bean id ="test" class = "com.glp.model.Test" init-method="init"/>
+</beans>
