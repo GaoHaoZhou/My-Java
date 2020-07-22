@@ -1,0 +1,121 @@
+<!-- HTML5文档-->
+<!DOCTYPE html>
+<!-- 网页使用的语言 -->
+<html lang="zh-CN">
+<head>
+    <!-- 指定字符集 -->
+    <meta charset="utf-8">
+    <!-- 使用Edge最新的浏览器的渲染方式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- viewport视口：网页可以根据设置的宽度自动进行适配，在浏览器的内部虚拟一个容器，容器的宽度与设备的宽度相同。
+    width: 默认宽度与设备的宽度相同
+    initial-scale: 初始的缩放比，为1:1 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>添加用户</title>
+
+    <!-- 1. 导入CSS的全局样式 -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- 2. jQuery导入，建议使用1.9以上的版本 -->
+    <script src="js/jquery-2.1.0.min.js"></script>
+    <!-- 3. 导入bootstrap的js文件 -->
+    <!--<script src="js/bootstrap.min.js"></script>-->
+    <script>
+        $(function () {
+            $("#submit").click(function () {
+                var name=$("#name").val();
+                var gender=$('input:radio:checked').val();
+                var age=$("#age").val();
+                var address= $("#address option:selected").val();
+                var qq=$("#qq").val();
+                var email=$("#email").val();
+                $.ajax({
+                    url:"/usermanager/addServlet",
+                    data:{"name":name,"gender":gender,"age":age,"address":address,"qq":qq,"email":email},
+                    type:"post",
+                    dataType:"json",
+                    success:function (data) {
+                        console.log(data);
+                        if(data.msg===true){
+                            //成功了
+                            alert("添加成功");
+                            window.location.href="/usermanager/list.html";
+                        }else{
+                            alert("添加失败");
+                        }
+                    },
+                    error : function (a,b,c) {
+                        console.log(a);
+                        console.log(b);
+                        console.log(c);
+                    }
+                });
+            });
+            $("#return").click(function () {
+                window.location.href="/usermanager/list.html";
+            });
+            $("#reset").click(function () {
+                $("#name").val("");
+                $("#age").val("");
+                $("#qq").val("");
+                $("#email").val("");
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <center><h3>添加联系人页面</h3></center>
+    <form id = "fromID">
+        <div class="form-group">
+            <label for="name">姓名：</label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="请输入姓名">
+        </div>
+
+        <div class="form-group">
+            <label>性别：</label>
+            <input type="radio" name="sex" value="男" checked="checked"/>男
+            <input type="radio" name="sex" value="女"/>女
+        </div>
+
+        <div class="form-group">
+            <label for="age">年龄：</label>
+            <input type="text" class="form-control" id="age" name="age" placeholder="请输入年龄">
+        </div>
+
+        <div class="form-group">
+            <label for="address">籍贯：</label>
+            <select name="address" class="form-control" id="address">
+                <option value="北京">北京</option>
+                <option value="上海">上海</option>
+                <option value="广州">广州</option>
+                <option value="深圳">深圳</option>
+                <option value="成都">成都</option>
+                <option value="杭州">杭州</option>
+                <option value="重庆">重庆</option>
+                <option value="西安">西安</option>
+                <option value="武汉">武汉</option>
+                <option value="沧州">沧州</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="qq">QQ：</label>
+            <input type="text" class="form-control" id="qq" name="qq" placeholder="请输入QQ号码"/>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email：</label>
+            <input type="text" class="form-control" id="email" name="email" placeholder="请输入邮箱地址"/>
+        </div>
+    </form>
+
+    <div class="form-group" style="text-align: center">
+        <input id="submit" class="btn btn-primary" type="submit" value="提交" />
+        <input id="reset" class="btn btn-default" type="reset" value="重置" />
+        <input id="return" class="btn btn-default" type="button" value="返回" />
+    </div>
+
+</div>
+</body>
+</html>
