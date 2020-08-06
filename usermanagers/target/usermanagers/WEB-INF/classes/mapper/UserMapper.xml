@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glp.dao.UserMapper">
+    <!--注册-->
+    <insert id="register" parameterType="user">
+        insert into usermessage(name,username,password,gender,age,address,qq,email) values(#{name},#{username},#{password},#{gender},#{age},#{address},#{qq},#{email})
+    </insert>
+
+    <!--登录-->
+    <select id="login" parameterType="user" resultType="user">
+        select * from usermessage where username=#{username} and password=#{password}
+    </select>
+
+    <!--添加用户-->
+    <insert id="add" parameterType="user">
+        insert into usermessage(name,gender,age,address,qq,email) values(#{name},#{gender},#{age},#{address},#{qq},#{email})
+    </insert>
+
+    <!--删除用户-->
+    <delete id="delete" parameterType="int">
+        delete from usermessage where id=#{id}
+    </delete>
+
+    <!--查找用户-->
+    <select id="find" parameterType="int" resultType="user">
+        select * from usermessage where id=#{id}
+    </select>
+
+    <!--修改用户-->
+    <update id="update" parameterType="user">
+        update usermessage set name=#{name},age=#{age},gender=#{gender},address=#{address},qq=#{qq},email=#{email} where id=#{id}
+    </update>
+
+
+<!--//select count(*) from usermessage where 1=1 and name=like ? and address=? and email=?-->
+    <!--查询总共有多少条记录,用来给分页查询做铺垫-->
+    <select id="findAllRecord" parameterType="map" resultType="int" >
+        select count(*) from usermessage
+        <where>
+           <if test="name!=null">
+               name like concat('%',#{name},'%')
+           </if>
+            <if test="address!=null">
+            and address like concat('%',#{address},'%')
+           </if>
+           <if test="email!=null">
+            and email like concat('%',#{email},'%')
+           </if>
+       </where>
+    </select>
+
+
+    <!--分页查询-->
+    <!--select * from usermessage where 1=1 and name like ? and address like ? and email like ?
+    limit ?,?-->
+    <select id="findByPage" parameterType="map" resultType="user">
+        select * from usermessage
+        <where>
+            <if test="name!=null">
+                name like concat('%',#{name},'%')
+            </if>
+            <if test="address!=null">
+                and address like concat('%',#{address},'%')
+            </if>
+            <if test="email!=null">
+                and email like concat('%',#{email},'%')
+            </if>
+        </where>
+        limit #{startIndex},#{rows}
+    </select>
+</mapper>
