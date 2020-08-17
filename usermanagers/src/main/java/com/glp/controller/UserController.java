@@ -45,6 +45,8 @@ public class UserController {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=utf-8");
 
+        System.out.println("---------------------------"+req.getContextPath());
+
         User user = userService.login(u);
 
         Map<String ,Object> return_map = new HashMap<>();

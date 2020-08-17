@@ -1,7 +1,9 @@
 com\glp\controller\UserController.class
+com\glp\config\LoginInterceptor.class
 com\glp\pojo\PageBean.class
 com\glp\pojo\User.class
 com\glp\dao\UserMapper.class
+com\glp\config\MyConfig.class
 com\glp\service\UserServiceImpl.class
 com\glp\UsermanagersApplication.class
 com\glp\service\UserService.class

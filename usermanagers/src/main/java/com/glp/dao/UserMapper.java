@@ -36,7 +36,4 @@ public interface UserMapper {
     //分页查询 map：包含：currentPage、rows、name、address、email
     List<User> findByPage(HashMap<String,Object> map);
 
-
-
-
 }
