@@ -1,0 +1,22 @@
+{
+  "groups": [
+    {
+      "name": "diy.hello",
+      "type": "com.example.properties.HelloProperties",
+      "sourceType": "com.example.properties.HelloProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "diy.hello.prefix",
+      "type": "java.lang.String",
+      "sourceType": "com.example.properties.HelloProperties"
+    },
+    {
+      "name": "diy.hello.suffix",
+      "type": "java.lang.String",
+      "sourceType": "com.example.properties.HelloProperties"
+    }
+  ],
+  "hints": []
+}
