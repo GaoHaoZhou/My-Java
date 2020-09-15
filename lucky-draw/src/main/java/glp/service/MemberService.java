@@ -22,7 +22,6 @@ public class MemberService {
 
     @Transactional
     public void add(Member member) {
-
         memberMapper.insertSelective(member);
     }
     @Transactional

@@ -25,6 +25,7 @@ public class ResponseResult {
     private String message;
 
     private ResponseResult(){}
+
     //正常返回业务数据
     public static ResponseResult ok(Object o){
         ResponseResult r = new ResponseResult();
@@ -32,10 +33,12 @@ public class ResponseResult {
         r.data = o;
         return r;
     }
+
     //出现异常时，返回的数据
     public static ResponseResult error(){
-        return error("ERR000000", "未知的错误，请联系管理员");
+        return error("ERROR", "未知的错误，请联系管理员");
     }
+
     public static ResponseResult error(String code, String message){
         ResponseResult r = new ResponseResult();
         r.code = code;

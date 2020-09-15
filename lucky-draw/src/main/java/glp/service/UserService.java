@@ -36,9 +36,6 @@ public class UserService {
 
     public User login(User user) {
 
-//        User exist = userMapper.selectOne(user);
-//        if(exist == null)
-//            throw new ClientException("USR001", "用户名密码校验失败");
         User query = new User();
         query.setUsername(user.getUsername());
         User exist = userMapper.selectOne(query);//只根据用户名查询用户信息
@@ -58,8 +55,9 @@ public class UserService {
         User query = new User();
         query.setUsername(user.getUsername());
         User exist = userMapper.selectOne(query);
-        if(exist != null)
+        if(exist != null){
             throw new ClientException("USR003", "用户已存在");
+        }
 
 
         //保存注册用户信息（插入）
@@ -71,7 +69,7 @@ public class UserService {
         //注册用户时，完成初始化设置：创建setting数据
         Setting setting = new Setting();
         setting.setUserId(user.getId());
-        setting.setBatchNumber(8);
+        setting.setBatchNumber(1);
         settingService.add(setting);
 
         //保存注册用户头像到本地文件夹

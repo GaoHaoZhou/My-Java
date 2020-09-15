@@ -13,28 +13,7 @@
     id, name, no, user_id, create_time
   </sql>
 
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from member
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from member
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-
-  <insert id="insert" parameterType="glp.model.Member">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into member (name, no, user_id, 
-      create_time)
-    values (#{name,jdbcType=VARCHAR}, #{no,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP})
-  </insert>
-
+  <!-- 增加人员-->
   <insert id="insertSelective" parameterType="glp.model.Member">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
@@ -70,6 +49,7 @@
     </trim>
   </insert>
 
+  <!--修改人员信息-->
   <update id="updateByPrimaryKeySelective" parameterType="glp.model.Member">
     update member
     <set>
@@ -89,40 +69,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <update id="updateByPrimaryKey" parameterType="glp.model.Member">
-    update member
-    set name = #{name,jdbcType=VARCHAR},
-      no = #{no,jdbcType=VARCHAR},
-      user_id = #{userId,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-
-  <select id="selectOne" parameterType="glp.model.Member" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from member
-    <trim prefix="where" prefixOverrides="and">
-      <if test="name != null">
-        and name = #{name,jdbcType=VARCHAR}
-      </if>
-      <if test="no != null">
-        and no = #{no,jdbcType=VARCHAR}
-      </if>
-      <if test="userId != null">
-        and user_id = #{userId,jdbcType=INTEGER}
-      </if>
-      <if test="createTime != null">
-        and create_time = #{createTime,jdbcType=TIMESTAMP}
-      </if>
-    </trim>
-  </select>
-
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, no, user_id, create_time
-    from member
-  </select>
-
+  <!--通过user_id查询人员列表-->
   <select id="selectByCondition" parameterType="glp.model.Member" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -143,11 +90,11 @@
     </trim>
   </select>
 
-  <delete id="deleteByIds" parameterType="java.util.List">
+  <!--根据id删除人员信息-->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from member
-      where id in
-    <foreach close=")" collection="list" item="item" open="(" separator=",">
-      #{item}
-    </foreach>
+    where id = #{id,jdbcType=INTEGER}
   </delete>
+
+
 </mapper>

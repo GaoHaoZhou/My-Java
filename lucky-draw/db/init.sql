@@ -56,25 +56,20 @@ create table record(
 ) comment '抽奖记录表';
 
 
-
+-- 插入企业用户
 insert into user(id, username, password, nickname, email, age, head) values (1, '123', '123', 'root', '1111@163.com', 18, 'img/test-head.jpg');
 
-## 数据字典：学生毕业年份
+-- 插入用户的初始设置
 insert into setting(id, user_id, batch_number) values (1, 1, 8);
 
-insert into award(name, count, award, setting_id) values ('特靠谱欢乐奖', 1, '深圳湾一号', 1);
-insert into award(name, count, award, setting_id) values ('特靠谱娱乐奖', 5, 'BMW X5', 1);
-insert into award(name, count, award, setting_id) values ('特靠谱励志奖', 20, '办公室一日游', 1);
+-- 插入奖项
+insert into award(name, count, award, setting_id) values ('一等奖', 1, '太空游', 1);
+insert into award(name, count, award, setting_id) values ('二等奖', 5, '红旗 H5', 1);
+insert into award(name, count, award, setting_id) values ('三等奖', 20, '国内任意游', 1);
 
 
 
-## 数据字典：学生专业
-insert into member(name, no, user_id) values ('李寻欢', '水果刀', 1);
-insert into member(name, no, user_id) values ('郭靖', '降猪十八掌', 1);
-insert into member(name, no, user_id) values ('韦小宝', '抓?龙爪手', 1);
-insert into member(name, no, user_id) values ('风清扬', '孤独九贱', 1);
-insert into member(name, no, user_id) values ('哪吒', '喷气式电单车', 1);
-insert into member(name, no, user_id) values ('渠昊空', 'no2', 1);
+-- 插入抽奖人员
 insert into member(name, no, user_id) values ('闵觅珍', 'no2', 1);
 insert into member(name, no, user_id) values ('慈新之', 'no3', 1);
 insert into member(name, no, user_id) values ('户柔绚', 'no4', 1);
@@ -167,9 +162,9 @@ insert into member(name, no, user_id) values ('回访波', 'no90', 1);
 
 -- 插入抽奖记录
 -- insert into record(member_id, award_id) values(56, 1);
-insert into record(member_id, award_id) values(1, 2);
-insert into record(member_id, award_id) values(33, 2);
-insert into record(member_id, award_id) values(13, 3);
-insert into record(member_id, award_id) values(41, 3);
-insert into record(member_id, award_id) values(54, 3);
-insert into record(member_id, award_id) values(85, 3);
+-- insert into record(member_id, award_id) values(1, 2);
+-- insert into record(member_id, award_id) values(33, 2);
+-- insert into record(member_id, award_id) values(13, 3);
+-- insert into record(member_id, award_id) values(41, 3);
+-- insert into record(member_id, award_id) values(54, 3);
+-- insert into record(member_id, award_id) values(85, 3);

@@ -12,32 +12,12 @@
     id, user_id, batch_number, create_time
   </sql>
 
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from setting
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from setting
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-
-  <insert id="insert" parameterType="glp.model.Setting">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into setting (user_id, batch_number, create_time
-      )
-    values (#{userId,jdbcType=INTEGER}, #{batchNumber,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
-      )
-  </insert>
-
+  <!--插入setting数据-->
   <insert id="insertSelective" parameterType="glp.model.Setting">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
+
     insert into setting
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -63,30 +43,8 @@
     </trim>
   </insert>
 
-  <update id="updateByPrimaryKeySelective" parameterType="glp.model.Setting">
-    update setting
-    <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="batchNumber != null">
-        batch_number = #{batchNumber,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
 
-  </update>
-  <update id="updateByPrimaryKey" parameterType="glp.model.Setting">
-    update setting
-    set user_id = #{userId,jdbcType=INTEGER},
-      batch_number = #{batchNumber,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-
+  <!--根据用户id，查询设置-->
   <select id="selectOne" parameterType="glp.model.Setting" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -104,38 +62,11 @@
     </trim>
   </select>
 
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, user_id, batch_number, create_time
-    from setting
-  </select>
-
-  <select id="selectByCondition" parameterType="glp.model.Setting" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from setting
-    <trim prefix="where" prefixOverrides="and">
-      <if test="userId != null">
-        and user_id = #{userId,jdbcType=INTEGER}
-      </if>
-      <if test="batchNumber != null">
-        and batch_number = #{batchNumber,jdbcType=INTEGER}
-      </if>
-      <if test="createTime != null">
-        and create_time = #{createTime,jdbcType=TIMESTAMP}
-      </if>
-    </trim>
-  </select>
-
-  <delete id="deleteByIds" parameterType="java.util.List">
-    delete from setting
-      where id in
-    <foreach close=")" collection="list" item="item" open="(" separator=",">
-      #{item}
-    </foreach>
-  </delete>
 
 
 
+
+ <!--修改设置信息-->
   <update id="updateByUserId">
     update setting set batch_number=#{batchNumber} where user_id=#{userId}
   </update>

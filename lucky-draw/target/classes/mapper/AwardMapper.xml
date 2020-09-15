@@ -22,28 +22,14 @@
     id, name, count, award, setting_id, create_time
   </sql>
 
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from award
-    where id = #{id,jdbcType=INTEGER}
-  </select>
 
+  <!--删除奖项信息-->
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from award
     where id = #{id,jdbcType=INTEGER}
   </delete>
 
-  <insert id="insert" parameterType="glp.model.Award">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into award (name, count, award, 
-      setting_id, create_time)
-    values (#{name,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, #{award,jdbcType=VARCHAR}, 
-      #{settingId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
-  </insert>
-
+  <!--增加奖项信息-->
   <insert id="insertSelective" parameterType="glp.model.Award">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
@@ -85,6 +71,7 @@
     </trim>
   </insert>
 
+  <!--修改奖项信息-->
   <update id="updateByPrimaryKeySelective" parameterType="glp.model.Award">
     update award
     <set>
@@ -107,76 +94,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <update id="updateByPrimaryKey" parameterType="glp.model.Award">
-    update award
-    set name = #{name,jdbcType=VARCHAR},
-      count = #{count,jdbcType=INTEGER},
-      award = #{award,jdbcType=VARCHAR},
-      setting_id = #{settingId,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-
-  <select id="selectOne" parameterType="glp.model.Award" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from award
-    <trim prefix="where" prefixOverrides="and">
-      <if test="name != null">
-        and name = #{name,jdbcType=VARCHAR}
-      </if>
-      <if test="count != null">
-        and count = #{count,jdbcType=INTEGER}
-      </if>
-      <if test="award != null">
-        and award = #{award,jdbcType=VARCHAR}
-      </if>
-      <if test="settingId != null">
-        and setting_id = #{settingId,jdbcType=INTEGER}
-      </if>
-      <if test="createTime != null">
-        and create_time = #{createTime,jdbcType=TIMESTAMP}
-      </if>
-    </trim>
-  </select>
-
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, name, count, award, setting_id, create_time
-    from award
-  </select>
-
-  <select id="selectByCondition" parameterType="glp.model.Award" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from award
-    <trim prefix="where" prefixOverrides="and">
-      <if test="name != null">
-        and name = #{name,jdbcType=VARCHAR}
-      </if>
-      <if test="count != null">
-        and count = #{count,jdbcType=INTEGER}
-      </if>
-      <if test="award != null">
-        and award = #{award,jdbcType=VARCHAR}
-      </if>
-      <if test="settingId != null">
-        and setting_id = #{settingId,jdbcType=INTEGER}
-      </if>
-      <if test="createTime != null">
-        and create_time = #{createTime,jdbcType=TIMESTAMP}
-      </if>
-    </trim>
-  </select>
-
-  <delete id="deleteByIds" parameterType="java.util.List">
-    delete from award
-      where id in
-    <foreach close=")" collection="list" item="item" open="(" separator=",">
-      #{item}
-    </foreach>
-  </delete>
-
-
+<!-- 查询奖项信息-->
   <select id="query" parameterType="glp.model.Award" resultMap="BaseResultMap">
     select a.id,
            a.name,
