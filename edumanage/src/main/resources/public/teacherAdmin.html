@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!-- 网页使用的语言 -->
+<html lang="zh-CN">
+<head>
+    <!-- 指定字符集 -->
+    <meta charset="utf-8">
+    <!-- 使用Edge最新的浏览器的渲染方式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- viewport视口：网页可以根据设置的宽度自动进行适配，在浏览器的内部虚拟一个容器，容器的宽度与设备的宽度相同。
+    width: 默认宽度与设备的宽度相同
+    initial-scale: 初始的缩放比，为1:1 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>导师主页</title>
+
+    <!-- 1. 导入CSS的全局样式 -->
+    <link href="bootstrap.css" rel="stylesheet">
+    <!-- 2. jQuery导入，建议使用1.9以上的版本 -->
+    <script src="jquery-2.1.0.min.js"></script>
+    <!-- 3. 导入bootstrap的js文件 -->
+    <!-- <script src="js/bootstrap.min.js"></script>-->
+    <style type="text/css">
+        td, th {
+            text-align: center;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        function load(){
+            $.ajax({
+                url:"/edumanage/teacher/findStudents",
+                type:"POST",
+                dataType:"json",
+                success:function (fp) {
+                    console.log(fp);
+                    var lis='';
+                    for(var i=0;i<fp.length;i++){
+                        var j=i+1;
+                        var tr=' <tr>\n' +
+                            '            <td>'+j+'</td>\n' +
+                            '            <td>'+fp[i].student_id+'</td>\n' +
+                            '            <td>'+fp[i].sname+'</td>\n' +
+                            '            <td>'+fp[i].state+'</td>\n' +
+                            '            <td><a class="btn btn-default btn-sm" href="/edumanage/teacher/fileDownload?id='+fp[i].id+'">下载答辩结果</a>&nbsp;' +
+                            '<a class="btn btn-default btn-sm" href="/edumanage/teacher/checkServlet?id='+fp[i].id+'">确认审核</a>&nbsp;' +
+                            '<a class="btn btn-default btn-sm" href="/edumanage/teacher/uncheckServlet?id='+fp[i].id+'">撤销审核</a></td>\n' +
+                            '        </tr>';
+                        lis+=tr;
+                    }
+                    $("#info").html(lis);
+                }
+            })
+        }
+
+        function welcome(){
+            $.ajax({
+                url:"/edumanage/teacher/findTeacher",
+                type:"POST",
+                dataType:"json",
+                success:function (fp) {
+                    console.log(fp);
+                    var lis='';
+                    lis+=fp.tname+"导师欢迎您";
+                    $("#welcom").html(lis);
+                }
+            })
+        }
+        //一开始进入页面，默认会调用一个load函数
+        $(function () {
+            load();
+            welcome();
+        });
+    </script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <h3 id="welcom" style="text-align: center"></h3>
+
+    <div style="float: right;margin-bottom: 15px">
+        <a class="btn btn-primary" href="/edumanage/login.html">返回首页</a>
+    </div>
+    <table border="1" class="table table-bordered table-hover">
+        <tr class="success">
+            <th>编号</th>
+            <th>学号</th>
+            <th>姓名</th>
+            <th>审核状态</th>
+            <th>操作</th>
+        </tr>
+        <tbody id="info">
+
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!-- HTML5文档-->
+<!DOCTYPE html>
+<!-- 网页使用的语言 -->
+<html lang="zh-CN">
+<head>
+    <!-- 指定字符集 -->
+    <meta charset="utf-8">
+    <!-- 使用Edge最新的浏览器的渲染方式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- viewport视口：网页可以根据设置的宽度自动进行适配，在浏览器的内部虚拟一个容器，容器的宽度与设备的宽度相同。
+    width: 默认宽度与设备的宽度相同
+    initial-scale: 初始的缩放比，为1:1 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>添加用户</title>
+
+    <!-- 1. 导入CSS的全局样式 -->
+    <link href="bootstrap.css" rel="stylesheet">
+    <!-- 2. jQuery导入，建议使用1.9以上的版本 -->
+    <script src="jquery-2.1.0.min.js"></script>
+    <!-- 3. 导入bootstrap的js文件 -->
+    <!--<script src="js/bootstrap.min.js"></script>-->
+    <script>
+        $(function () {
+            $("#submit").click(function () {
+                var studentid=$("#studentid").val();
+                var sname=$("#sname").val();
+                var teacherid=$("#teacherid").val();
+                $.ajax({
+                    url:"/edumanage/admin/addStudent",
+                    data:{"student_id":studentid,"sname":sname,"teacher_id":teacherid},
+                    type:"post",
+                    dataType:"json",
+                    success:function (data) {
+                        console.log(data);
+                        if(data.msg===true){
+                            //成功了
+                            alert("添加成功");
+                            window.location.href="/edumanage/student.html";
+                        }else{
+                            alert("添加失败");
+                        }
+                    },
+                    error : function (a,b,c) {
+                        console.log(a);
+                        console.log(b);
+                        console.log(c);
+                    }
+                });
+            });
+            $("#return").click(function () {
+                window.location.href="/edumanage/student.html";
+            });
+
+        });
+
+
+    </script>
+</head>
+<body>
+<div class="container">
+    <center><h3>添加学生页面</h3></center>
+    <form id = "fromID">
+        <div class="form-group">
+            <label for="studentid">学号：</label>
+            <input type="text" class="form-control" id="studentid" name="studentid" placeholder="请输入学号">
+        </div>
+
+        <div class="form-group">
+            <label for="sname">姓名：</label>
+            <input type="text" class="form-control" id="sname" name="sname" placeholder="请输入姓名">
+        </div>
+
+
+        <div class="form-group">
+            <label for="teacherid">导师id：</label>
+            <input type="text" class="form-control" id="teacherid" name="teacherid" placeholder="请输入导师id">
+        </div>
+
+    </form>
+
+    <div class="form-group" style="text-align: center">
+        <input id="submit" class="btn btn-primary" type="submit" value="提交" />
+        <input id="return" class="btn btn-default" type="button" value="返回" />
+    </div>
+
+</div>
+</body>
+</html>

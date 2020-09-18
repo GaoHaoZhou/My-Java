@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<!-- 网页使用的语言 -->
+<html lang="zh-CN">
+<head>
+    <!-- 指定字符集 -->
+    <meta charset="utf-8">
+    <!-- 使用Edge最新的浏览器的渲染方式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- viewport视口：网页可以根据设置的宽度自动进行适配，在浏览器的内部虚拟一个容器，容器的宽度与设备的宽度相同。
+    width: 默认宽度与设备的宽度相同
+    initial-scale: 初始的缩放比，为1:1 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>导师管理页面</title>
+
+    <!-- 1. 导入CSS的全局样式 -->
+    <link href="bootstrap.css" rel="stylesheet">
+    <!-- 2. jQuery导入，建议使用1.9以上的版本 -->
+    <script src="jquery-2.1.0.min.js"></script>
+    <!-- 3. 导入bootstrap的js文件 -->
+    <!-- <script src="js/bootstrap.min.js"></script>-->
+    <style type="text/css">
+        td, th {
+            text-align: center;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        //load函数，用来做分页查询，模糊查询
+        function load(rows,currentPage,name,teacherid){
+            console.log(rows,currentPage,name,teacherid);
+            $.ajax({
+                url:"/edumanage/admin/findByPageServlet",
+                data: {currentPage:currentPage,rows:rows,name:name,teacher_id:teacherid},
+                type:"POST",
+                dataType:"json",
+                //fp中存放的是多个PageBean，findByPageServlet返回的是一个list，前端负责解析数据即可
+                success:function (fp) {
+                    console.log(fp);
+                    var lis='';
+                    for(var i=0;i<fp.list.length;i++){
+                        var j=i+1;
+                        var tr=' <tr>\n' +
+                            '            <th><input id="'+fp.list[i].id+'" type="checkbox"></th>'+
+                            '            <td>'+j+'</td>\n' +
+                            '            <td>'+fp.list[i].teacher_id+'</td>\n' +
+                            '            <td>'+fp.list[i].password+'</td>\n' +
+                            '            <td>'+fp.list[i].tname+'</td>\n' +
+                            '            <td>'+fp.list[i].sgender+'</td>\n' +
+                            '            <td>'+fp.list[i].age+'</td>\n' +
+                            '            <td>'+fp.list[i].stitle+'</td>\n' +
+                            '            <td>'+fp.list[i].from_date+'</td>\n' +
+                            '            <td><a class="btn btn-default btn-sm" href="/edumanage/admin/findUserServlet?id='+fp.list[i].id+'">修改</a>&nbsp;' +
+                            '<a class="btn btn-default btn-sm" href="/edumanage/admin/deleteServlet?id='+fp.list[i].id+'">删除</a></td>\n' +
+                            '        </tr>';
+                        lis+=tr;
+                    }
+                    $("#info").html(lis);
+
+                    var pre=currentPage-1;
+                    if(pre<=0) {
+                        pre=1;
+                    }
+                    var next=currentPage+1;
+                    if(next>fp.totalPage){
+                        next=fp.totalPage;
+                    }
+
+                    if(name===undefined){
+                        name="";
+                    }
+                    if(teacherid===undefined){
+                        teacherid="";
+                    }
+
+
+                    var prePage ='      ' +
+                        '               <li>\n' +
+                        '                    <a href="javascript:load('+5+','+pre+',&quot;'+name+'&quot;,&quot;'+teacherid+'&quot;)" aria-label="Previous">\n' +
+                        '                        <span aria-hidden="true">&laquo;</span>\n' +
+                        '                    </a>\n' +
+                        '                </li>';
+                    //动态生成换页 <a href="javascript:load('+5+','+pre+',&quot;'+name+'&quot;,'+teacherid+','++')" aria-label="Previous">\n' +
+                    var result_lis='';
+                    result_lis+=prePage;
+                    for(var i=1;i<=fp.totalPage;i++){
+                        if(currentPage===i){
+                            var li='<li class="active"><a href="javascript:load('+5+','+i+',&quot;'+name+'&quot;,&quot;'+teacherid+'&quot;)">'+i+'</a></li>';
+                        }else{
+                            var li='<li><a href="javascript:load('+5+','+i+',&quot;'+name+'&quot;,&quot;'+teacherid+'&quot;)">'+i+'</a></li>';
+                        }
+                        result_lis+=li;
+                    }
+
+                    var nextPage='           <li>\n' +
+                        '                    <a href="javascript:load('+5+','+next+',&quot;'+name+'&quot;,&quot;'+teacherid+'&quot;)" aria-label="Next">\n' +
+                        '                        <span aria-hidden="true">&raquo;</span>\n' +
+                        '                    </a>\n' +
+                        '                </li>';
+
+                    result_lis+=nextPage;
+
+                    var span='            <span style="font-size: 20px;margin-left: 5px;">\n' +
+                        '                    共'+fp.totalCount+'条记录，共'+fp.totalPage+'页\n' +
+                        '                </span>';
+                    result_lis+=span;
+                    $("#all").html(result_lis);
+
+                }
+            })
+        }
+
+        //load函数结束
+
+        //一开始进入list.html页面，默认会调用一个load函数
+        $(function () {
+            load(5,1);
+        });
+
+        //点击查询按钮时的操作
+        $(function () {
+            $("#submit1").click(function () {
+                var name = $("#exampleInputName2").val();
+                var teacherid = $("#exampleInputName3").val();
+                load(5,1,name,teacherid);
+            });
+
+            //查询请求完成了，点击删除按钮时，删除选中的元素，其中选中的元素用一个数组保存
+            $.when(load).done(function () {
+                //选取所有类型为CheckBox的元素
+                $("#delete").click(function () {
+                    var i=0;
+                    var id=new Array();
+                    $(":checkbox").each(function () {
+                        //如果被选中
+                        if($(this).is(':checked')){
+                            //获取id的值，存储到id数组当中
+                            id[i] = $(this).attr("id");
+                            i++;
+                        }
+                    });
+                    //发送ajax请求
+                    $.ajax({
+                        url:"/edumanage/admin/deleteSelectedServlet",
+                        //将id数组，发送给deleteSelectedServlet
+                        data:{"id":id},
+                        type: "POST",
+                        dataType:"json",
+                        success:function (data) {
+                            if(data.msg===true){
+                                alert("删除成功");
+                                window.location.href="/edumanage/teacher.html";
+                            }else{
+                                alert("删除失败");
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+</head>
+<body>
+<div class="container">
+    <h3 style="text-align: center">导师信息列表</h3>
+    <div style="float: left;">
+        <form class="form-inline">
+            <div class="form-group">
+                <label for="exampleInputName2">姓名</label>
+                <input name="name" type="text" class="form-control" id="exampleInputName2" >
+            </div>
+            <div class="form-group">
+                <label for="exampleInputName3">教工号</label>
+                <input name="teacherid" type="text" class="form-control" id="exampleInputName3" >
+            </div>
+
+            <button id="submit1" type="button" class="btn btn-default">查询</button>
+        </form>
+    </div>
+    <div style="float: right;margin-bottom: 15px">
+
+        <a class="btn btn-primary" href="/edumanage/admin.html">返回首页</a>
+        <a class="btn btn-primary" href="/edumanage/addteacher.html">添加导师</a>
+        <a id="delete" class="btn btn-primary">删除选中</a>
+
+    </div>
+    <table border="1" class="table table-bordered table-hover">
+        <tr class="success">
+            <th>选择</th>
+            <th>编号</th>
+            <th>教工号</th>
+            <th>密码</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>年龄</th>
+            <th>职称</th>
+            <th>入职时间</th>
+            <th>操作</th>
+        </tr>
+        <tbody id="info">
+
+        </tbody>
+    </table>
+    <div>
+        <nav aria-label="Page navigation">
+            <ul id="all" class="pagination">
+
+            </ul>
+        </nav>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 指定字符集 -->
+    <meta charset="utf-8">
+    <!-- 使用Edge最新的浏览器的渲染方式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- viewport视口：网页可以根据设置的宽度自动进行适配，在浏览器的内部虚拟一个容器，容器的宽度与设备的宽度相同。
+    width: 默认宽度与设备的宽度相同
+    initial-scale: 初始的缩放比，为1:1 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>学生管理页面</title>
+
+    <!-- 1. 导入CSS的全局样式 -->
+    <link href="bootstrap.css" rel="stylesheet">
+    <!-- 2. jQuery导入，建议使用1.9以上的版本 -->
+    <script src="jquery-2.1.0.min.js"></script>
+    <!-- 3. 导入bootstrap的js文件 -->
+    <!-- <script src="js/bootstrap.min.js"></script>-->
+    <style type="text/css">
+        td, th {
+            text-align: center;
+        }
+    </style>
+
+    <title>答辩结果审查</title>
+
+
+    <script>
+
+        function load(states){
+            $.ajax({
+                url:"/edumanage/admin/determinState",
+                data: {states:states},
+                type:"POST",
+                dataType:"json",
+                //fp中存放的是多个PageBean，findByPageServlet返回的是一个list，前端负责解析数据即可
+                success:function (fp) {
+                    if(fp.msg===true){
+                        window.location.href="/edumanage/student.html";
+                    }
+                }
+            })
+        }
+
+        function afterClick(){
+            var states = $("#states").val();
+            load(states);
+        }
+        // $(function () {
+        //     $("#submit1").click(function () {
+        //         console.log("hellooojojojoijoijioj")
+        //
+        //     });
+        // });
+    </script>
+
+</head>
+<body>
+
+<div class="form-group">
+    <label for="states">审核状态：</label>
+    <select name="states"  id="states">
+        <option  value="">请选择</option>
+        <option value="0">撤销</option>
+        <option value="3">通过</option>
+        <option value="4">未通过</option>
+    </select>
+</div>
+<button id="submit1" onclick="afterClick()" type="button" class="btn btn-default">确定</button>
+
+</body>
+</html>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glp.dao.AdminMapper">
+
+
+    <!--注册-->
+    <insert id="register" parameterType="administrator">
+        insert into administrator(admin_id, password) values(#{admin_id},#{password})
+    </insert>
+
+    <!--登录-->
+    <select id="login" parameterType="administrator" resultMap="adminMap">
+        select * from administrator where admin_id=#{admin_id} and password=#{password}
+    </select>
+
+    <resultMap id="adminMap" type="administrator">
+        <result column="id" property="id"/>
+        <result column="admin_id" property="admin_id"/>
+        <result column="password" property="password"/>
+    </resultMap>
+
+
+    <resultMap id="teacherMap" type="teacher">
+        <result column="id" property="id"/>
+        <result column="teacher_id" property="teacher_id"/>
+        <result column="password" property="password"/>
+        <result column="tname" property="tname"/>
+        <result column="gender" property="gender"/>
+        <result column="age" property="age"/>
+        <result column="title" property="title"/>
+        <result column="from_date" property="from_date"/>
+    </resultMap>
+
+    <!--添加用户-->
+    <insert id="add" parameterType="teacher">
+        insert into teacher(teacher_id,password,tname,gender,age,title,from_date) values(#{teacher_id},#{password},#{tname},#{gender},#{age},#{title},#{from_date})
+    </insert>
+
+    <!--删除用户-->
+    <delete id="delete" parameterType="int">
+        delete from teacher where id=#{id}
+    </delete>
+
+    <!--查找用户-->
+    <select id="find" parameterType="int" resultMap="teacherMap">
+        select * from teacher where id=#{id}
+    </select>
+
+    <!--修改用户-->
+    <update id="update" parameterType="teacher">
+        update teacher set teacher_id=#{teacher_id},password=#{password},tname=#{tname},gender=#{gender},age=#{age},title=#{title},from_date=#{from_date} where id=#{id}
+    </update>
+
+
+    <!--//select count(*) from usermessage where 1=1 and name=like ? and address=? and email=?-->
+    <!--查询总共有多少条记录,用来给分页查询做铺垫-->
+    <select id="findAllRecord" parameterType="map" resultType="int" >
+        select count(*) from teacher
+        <where>
+            <if test="teacher_id!=null">
+                teacher_id like concat('%',#{teacher_id},'%')
+            </if>
+            <if test="tname!=null">
+                and tname like concat('%',#{tname},'%')
+            </if>
+        </where>
+    </select>
+
+
+    <!--分页查询-->
+    <!--select * from usermessage where 1=1 and name like ? and address like ? and email like ?
+    limit ?,?-->
+    <select id="findByPage" parameterType="map" resultMap="teacherMap">
+        select * from teacher
+        <where>
+            <if test="teacher_id!=null">
+                teacher_id like concat('%',#{teacher_id},'%')
+            </if>
+            <if test="tname!=null">
+                and tname like concat('%',#{tname},'%')
+            </if>
+        </where>
+        limit #{startIndex},#{rows}
+    </select>
+
+    <!--============================学生模块==========================================-->
+
+    <resultMap id="studentMap" type="student">
+        <result column="id" property="id"/>
+        <result column="student_id" property="student_id"/>
+        <result column="password" property="password"/>
+        <result column="sname" property="sname"/>
+        <result column="teacher_id" property="teacher_id"/>
+        <result column="tname" property="tname"/>
+        <result column="states" property="states"/>
+        <result column="message" property="message"/>
+    </resultMap>
+
+    <select id="findAllRecordStudent" parameterType="map" resultType="int" >
+        select count(*) from student
+        <where>
+            <if test="student_id!=null">
+                student_id like concat('%',#{student_id},'%')
+            </if>
+            <if test="sname!=null">
+                and sname like concat('%',#{sname},'%')
+            </if>
+            <if test="tname!=null">
+                and tname like concat('%',#{tname},'%')
+            </if>
+            <if test="states!=null">
+                and states like concat('%',#{states},'%')
+            </if>
+        </where>
+    </select>
+
+
+    <select id="findByPageStudent" parameterType="map" resultMap="studentMap">
+        select * from student
+        <where>
+            <if test="student_id!=null">
+                student_id like concat('%',#{student_id},'%')
+            </if>
+            <if test="sname!=null">
+                and sname like concat('%',#{sname},'%')
+            </if>
+            <if test="tname!=null">
+                and tname like concat('%',#{tname},'%')
+            </if>
+            <if test="states!=null">
+                and states like concat('%',#{states},'%')
+            </if>
+        </where>
+        limit #{startIndex},#{rows}
+    </select>
+
+
+
+    <!--添加用户-->
+    <insert id="addStudent" parameterType="student">
+        insert into student(student_id, password, sname, teacher_id, tname, states, message) values(#{student_id},#{password},#{sname},#{teacher_id},#{tname},#{states},#{message})
+    </insert>
+
+    <!--删除用户-->
+    <delete id="deleteStudent" parameterType="int">
+        delete from student where id=#{id}
+    </delete>
+
+    <!--查找用户-->
+    <select id="findStudent" parameterType="int" resultMap="studentMap">
+        select * from student where id=#{id}
+    </select>
+
+    <!--修改用户-->
+    <update id="updateStudent" parameterType="student">
+        update student set student_id=#{student_id},password=#{password},sname=#{sname},teacher_id=#{teacher_id},tname=#{tname} where id=#{id}
+    </update>
+
+
+</mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glp.dao.TeacherMapper">
+
+    <resultMap id="teacherMap" type="teacher">
+        <result column="id" property="id"/>
+        <result column="teacher_id" property="teacher_id"/>
+        <result column="password" property="password"/>
+        <result column="tname" property="tname"/>
+        <result column="gender" property="gender"/>
+        <result column="age" property="age"/>
+        <result column="title" property="title"/>
+        <result column="from_date" property="from_date"/>
+    </resultMap>
+
+    <!--登录-->
+    <select id="login" parameterType="teacher" resultMap="teacherMap">
+        select * from teacher where teacher_id=#{teacher_id} and password=#{password}
+    </select>
+
+    <select id="getStudents" parameterType="teacher" resultMap="studentMap">
+        select * from student where teacher_id=#{id};
+    </select>
+
+    <resultMap id="studentMap" type="student">
+        <result column="id" property="id"/>
+        <result column="student_id" property="student_id"/>
+        <result column="password" property="password"/>
+        <result column="sname" property="sname"/>
+        <result column="teacher_id" property="teacher_id"/>
+        <result column="tname" property="tname"/>
+        <result column="states" property="states"/>
+        <result column="message" property="message"/>
+    </resultMap>
+
+
+</mapper>

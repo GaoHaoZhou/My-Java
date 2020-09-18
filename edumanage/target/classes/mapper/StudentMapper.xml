@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.glp.dao.StudentMapper">
+
+    <resultMap id="studentMap" type="student">
+        <result column="id" property="id"/>
+        <result column="student_id" property="student_id"/>
+        <result column="password" property="password"/>
+        <result column="sname" property="sname"/>
+        <result column="teacher_id" property="teacher_id"/>
+        <result column="tname" property="tname"/>
+        <result column="states" property="states"/>
+        <result column="message" property="message"/>
+    </resultMap>
+
+    <!--登录-->
+    <select id="login" parameterType="student" resultMap="studentMap">
+        select * from student where student_id=#{student_id} and password=#{password}
+    </select>
+
+<!--更新路径信息-->
+    <update id="updatePath" parameterType="student">
+        update student set message=#{message},states=#{states} where id = #{id};
+    </update>
+
+    <!--更新状态updateStates-->
+    <update id="updateStates" parameterType="student">
+        update student set states=#{states} where id = #{id};
+    </update>
+
+    <!--查找学生-->
+    <select id="findStudent" parameterType="Integer" resultMap="studentMap">
+        select * from student where id = #{id};
+    </select>
+</mapper>

@@ -1,0 +1,112 @@
+<!-- HTML5文档-->
+<!DOCTYPE html>
+<!-- 网页使用的语言 -->
+<html lang="zh-CN">
+<head>
+    <!-- 指定字符集 -->
+    <meta charset="utf-8">
+    <!-- 使用Edge最新的浏览器的渲染方式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- viewport视口：网页可以根据设置的宽度自动进行适配，在浏览器的内部虚拟一个容器，容器的宽度与设备的宽度相同。
+    width: 默认宽度与设备的宽度相同
+    initial-scale: 初始的缩放比，为1:1 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>添加用户</title>
+
+    <!-- 1. 导入CSS的全局样式 -->
+    <link href="bootstrap.css" rel="stylesheet">
+    <!-- 2. jQuery导入，建议使用1.9以上的版本 -->
+    <script src="jquery-2.1.0.min.js"></script>
+    <!-- 3. 导入bootstrap的js文件 -->
+    <!--<script src="js/bootstrap.min.js"></script>-->
+    <script>
+        $(function () {
+            $("#submit").click(function () {
+                var teacherid=$("#teacherid").val();
+                var password=$("#password").val();
+                var tname=$("#tname").val();
+                var gender=$('input[name="gender"]:radio:checked').val();
+                var age=$("#age").val();
+                var title=$('input[name="title"]:radio:checked').val();
+                var fdate=$("#fdate").val();
+                $.ajax({
+                    url:"/edumanage/admin/addServlet",
+                    data:{"teacher_id":teacherid,"password":password,"tname":tname,"gender":gender,"age":age,"title":title,"from_date":fdate},
+                    type:"post",
+                    dataType:"json",
+                    success:function (data) {
+                        console.log(data);
+                        if(data.msg===true){
+                            //成功了
+                            alert("添加成功");
+                            window.location.href="/edumanage/teacher.html";
+                        }else{
+                            alert("添加失败");
+                        }
+                    },
+                    error : function (a,b,c) {
+                        console.log(a);
+                        console.log(b);
+                        console.log(c);
+                    }
+                });
+            });
+            $("#return").click(function () {
+                window.location.href="/edumanage/teacher.html";
+            });
+
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <center><h3>添加导师页面</h3></center>
+    <form id = "fromID">
+        <div class="form-group">
+            <label for="teacherid">教工号：</label>
+            <input type="text" class="form-control" id="teacherid" name="teacherid" placeholder="请输入教工号">
+        </div>
+
+        <div class="form-group">
+            <label for="password">密码：</label>
+            <input type="text" class="form-control" id="password" name="password" placeholder="请输入密码">
+        </div>
+
+        <div class="form-group">
+            <label for="tname">姓名：</label>
+            <input type="text" class="form-control" id="tname" name="tname" placeholder="请输入姓名">
+        </div>
+
+        <div class="form-group">
+            <label>性别：</label>
+            <input type="radio" name="gender" value="0" checked="checked"/>男
+            <input type="radio" name="gender" value="1"/>女
+        </div>
+
+        <div class="form-group">
+            <label for="age">年龄：</label>
+            <input type="text" class="form-control" id="age" name="age" placeholder="请输入年龄">
+        </div>
+
+
+        <div class="form-group">
+            <label>职称：</label>
+            <input type="radio" name="title" value="0" checked="checked"/>副教授
+            <input type="radio" name="title" value="1"/>教授
+        </div>
+
+        <div class="form-group">
+            <label for="fdate">入职时间：</label>
+            <input type="text" class="form-control" id="fdate" name="fdate" placeholder="2004-02-21">
+        </div>
+    </form>
+
+    <div class="form-group" style="text-align: center">
+        <input id="submit" class="btn btn-primary" type="submit" value="提交" />
+        <input id="return" class="btn btn-default" type="button" value="返回" />
+    </div>
+
+</div>
+</body>
+</html>
