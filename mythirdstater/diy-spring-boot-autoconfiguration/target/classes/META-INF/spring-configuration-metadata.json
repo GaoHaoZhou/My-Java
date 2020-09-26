@@ -1,0 +1,22 @@
+{
+  "groups": [
+    {
+      "name": "diy.hello",
+      "type": "com.glp.properties.Properties",
+      "sourceType": "com.glp.properties.Properties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "diy.hello.pre",
+      "type": "java.lang.String",
+      "sourceType": "com.glp.properties.Properties"
+    },
+    {
+      "name": "diy.hello.suf",
+      "type": "java.lang.String",
+      "sourceType": "com.glp.properties.Properties"
+    }
+  ],
+  "hints": []
+}

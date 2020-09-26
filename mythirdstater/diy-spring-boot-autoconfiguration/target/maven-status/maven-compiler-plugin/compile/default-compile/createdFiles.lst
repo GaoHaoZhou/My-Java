@@ -1,0 +1,4 @@
+com\glp\properties\Properties.class
+META-INF\spring-configuration-metadata.json
+com\glp\config\HelloServiceAutoConfiguration.class
+com\glp\service\HelloService.class
