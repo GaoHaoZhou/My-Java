@@ -18,7 +18,7 @@
         <!-- 父项目spring-boot-starter-parent中已经配置了这两个属性，并加入到插件，所以不用配 -->
         <!--        <java.version>1.8</java.version>-->
         <!--        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
-        <mysql.version>5.1.47</mysql.version>
+        <mysql.version>8.0.28</mysql.version>
     </properties>
 
     <dependencies>
